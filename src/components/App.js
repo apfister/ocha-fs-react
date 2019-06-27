@@ -69,7 +69,8 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  config: state.config
+  config: state.config,
+  groupedOcha: state.groupedOcha
 })
 
 const mapDispatchToProps = function (dispatch) {

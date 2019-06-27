@@ -26,6 +26,7 @@ import App from './components/App';
 
 // Styles //
 import CalciteThemeProvider from 'calcite-react/CalciteThemeProvider';
+import { ToastContainer } from 'calcite-react/Toaster';
 import { GlobalStyle } from './styles/global';
 import './styles/fonts.css';
 
@@ -41,6 +42,7 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter basename={basename}>
       <CalciteThemeProvider>
+        <ToastContainer />
         <GlobalStyle />
         <Route path='/' component={App} />
       </CalciteThemeProvider>

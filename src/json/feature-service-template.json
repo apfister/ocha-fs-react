@@ -1,0 +1,38 @@
+{
+    "maxRecordCount": 2000,
+    "supportedQueryFormats": "JSON",
+    "capabilities": "Query",
+    "description": "",
+    "allowGeometryUpdates": true,
+    "hasStaticData": true,
+    "units": "esriMeters",
+    "syncEnabled": false,
+    "editorTrackingInfo": {
+        "enableEditorTracking": false,
+        "enableOwnershipAccessControl": false,
+        "allowOthersToQuery": true,
+        "allowOthersToUpdate": true,
+        "allowOthersToDelete": false,
+        "allowAnonymousToUpdate": true,
+        "allowAnonymousToDelete": true
+    },
+    "xssPreventionInfo": {
+        "xssPreventionEnabled": true,
+        "xssPreventionRule": "InputOnly",
+        "xssInputRule": "rejectInvalid"
+    },
+    "initialExtent": {
+        "xmin": -161.6967511413889,
+        "ymin": -72.67267629415399,
+        "xmax": 161.6967511413889,
+        "ymax": 80.69452318398885,
+        "spatialReference": {
+            "wkid": 4326
+        }
+    },
+    "spatialReference": {
+        "wkid": 4326
+    },
+    "tables": [],
+    "name": "testocha"
+}

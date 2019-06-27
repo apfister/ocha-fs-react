@@ -1,0 +1,108 @@
+{
+    "layers": [{
+        "adminLayerInfo": {
+            "geometryField": {
+                "name": "Shape",
+                "srid": 4326
+            }
+        },
+        "name": "testocha",
+        "type": "Feature Layer",
+        "displayField": "",
+        "description": "",
+        "copyrightText": "",
+        "defaultVisibility": true,
+        "relationships": [],
+        "isDataVersioned": false,
+        "supportsRollbackOnFailureParameter": true,
+        "supportsAdvancedQueries": true,
+        "geometryType": "esriGeometryPoint",
+        "minScale": 0,
+        "maxScale": 0,
+        "extent": {
+            "xmin": -161.6967511413889,
+            "ymin": -72.67267629415399,
+            "xmax": 161.6967511413889,
+            "ymax": 80.69452318398885,
+            "spatialReference": {
+                "wkid": 4326
+            }
+        },
+        "drawingInfo": {
+            "transparency": 0,
+            "labelingInfo": null,
+            "renderer": {
+                "type": "simple",
+                "symbol": {
+                    "color": [20, 158, 206, 130],
+                    "size": 18,
+                    "angle": 0,
+                    "xoffset": 0,
+                    "yoffset": 0,
+                    "type": "esriSMS",
+                    "style": "esriSMSCircle",
+                    "outline": {
+                        "color": [255, 255, 255, 220],
+                        "width": 2.25,
+                        "type": "esriSLS",
+                        "style": "esriSLSSolid"
+                    }
+                }
+            }
+        },
+        "allowGeometryUpdates": true,
+        "hasAttachments": true,
+        "htmlPopupType": "esriServerHTMLPopupTypeNone",
+        "hasM": false,
+        "hasZ": false,
+        "objectIdField": "OBJECTID",
+        "globalIdField": "",
+        "typeIdField": "",
+        "fields": [{
+            "name": "OBJECTID",
+            "type": "esriFieldTypeOID",
+            "alias": "OBJECTID",
+            "sqlType": "sqlTypeOther",
+            "nullable": false,
+            "editable": false,
+            "domain": null,
+            "defaultValue": null
+        }, {
+            "name": "OCHA_CATEGORY",
+            "alias": "Category",
+            "type": "esriFieldTypeString",
+            "sqlType": "sqlTypeNVarchar",
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null,
+            "length": 256
+        }, {
+            "name": "OCHA_NAME",
+            "alias": "Name",
+            "type": "esriFieldTypeString",
+            "sqlType": "sqlTypeNVarchar",
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null,
+            "length": 256
+        }],
+        "indexes": [],
+        "types": [],
+        "templates": [{
+            "name": "New Feature",
+            "description": "",
+            "drawingTool": "esriFeatureEditToolPoint",
+            "prototype": {
+                "attributes": {
+                    "test": null
+                }
+            }
+        }],
+        "supportedQueryFormats": "JSON",
+        "hasStaticData": true,
+        "maxRecordCount": 10000,
+        "capabilities": "Query"
+    }]
+}

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--
@@ -10,6 +11,7 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
 
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -20,11 +22,38 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Esri-React-Boot</title>
-  </head>
-  <body>
+    <title>Create Feature Service from OCHA Symbology</title>
+
+    <style>
+        .selected-side-nav {
+            color: white !important;
+            opacity: 1 !important;
+            background-color: #0079c1 !important;
+        }
+
+        .active-icons {
+            display: inline-block;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .active-icons-clear {
+            display: inline-block;
+            margin-bottom: 2px;
+            cursor: pointer;
+        }
+
+        .active-icon-label {
+            display: inline-block;
+            margin-bottom: 0 !important;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
     <noscript>
-      You need to enable JavaScript to run this app.
+        You need to enable JavaScript to run this app.
     </noscript>
     <div id="root" style="height:100%;"></div>
     <!--
@@ -37,5 +66,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

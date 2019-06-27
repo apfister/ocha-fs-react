@@ -11,6 +11,9 @@
 
 // React
 import React, { Component } from 'react';
+import { Redirect, NavLink, Route } from 'react-router-dom';
+import Home from './Home';
+import Create from './Create';
 
 // Redux
 import { bindActionCreators } from 'redux';
@@ -18,15 +21,35 @@ import { connect } from 'react-redux';
 import { actions as mapActions } from '../redux/reducers/map';
 import { actions as authActions } from '../redux/reducers/auth';
 
+import { Formik, Field } from 'formik';
+
 // Components
+import Toaster from 'calcite-react/Toaster';
+import Form from 'calcite-react/Form';
 import TopNav from 'calcite-react/TopNav';
 import TopNavBrand from 'calcite-react/TopNav/TopNavBrand';
 import TopNavTitle from 'calcite-react/TopNav/TopNavTitle';
 import TopNavList from 'calcite-react/TopNav/TopNavList';
 import TopNavLink from 'calcite-react/TopNav/TopNavLink';
-import SceneViewExample from './esri/map/SceneViewExample';
+import Panel, { PanelTitle } from 'calcite-react/Panel';
+import List, { ListItem, ListItemTitle } from 'calcite-react/List';
+import Label from 'calcite-react/Label';
+import Slider from 'calcite-react/Slider';
+import SideNav, { SideNavTitle, SideNavLink } from 'calcite-react/SideNav';
+import { CalciteP, CalciteA, CalciteH6 } from 'calcite-react/Elements';
+import TextField from 'calcite-react/TextField';
+import Button from 'calcite-react/Button';
+// import LayerPointsIcon from 'calcite-ui-icons-react/LayerPointsIcon';
+import PlusCircleIcon from 'calcite-ui-icons-react/PlusCircleIcon';
+import MinusCircleIcon from 'calcite-ui-icons-react/MinusCircleIcon';
+
 import LoadScreen from './LoadScreen';
 import UserAccount from './UserAccount';
+import CalciteGridContainer from './CalciteGridContainer';
+import CalciteGridColumn from './CalciteGridColumn';
+import ochaTemplates from '../json/ocha-templates';
+import { createService } from '../services/agoService';
+
 import logo from '../styles/images/Esri-React-Logo.svg';
 
 // Styled Components
@@ -41,15 +64,15 @@ const Container = styled.div`
   text-align: center;
 `;
 
-const MapWrapper = styled.div`
+const BodyWrapper = styled.div`
   display: flex;
   flex: 1;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
   position: relative;
   z-index: 0;
-  overflow: hidden;
 `;
-
 const Logo = styled(TopNavBrand)`
   justify-content: center;
   & img {
@@ -59,7 +82,7 @@ const Logo = styled(TopNavBrand)`
 
 const Nav = styled(TopNav)`
   background-color: ${props => props.theme.palette.offWhite};
-  z-index: 5
+  z-index: 5;
 `;
 
 const NavList = styled(TopNavList)`
@@ -70,24 +93,26 @@ const NavList = styled(TopNavList)`
 class Main extends Component {
   signIn = () => {
     this.props.checkAuth('https://www.arcgis.com');
-  }
+  };
 
   signOut = () => {
     this.props.logout();
-  }
+  };
 
   render() {
+    const isLoggedIn = this.props.auth.loggedIn;
+
     return (
       <Container>
         <LoadScreen isLoading={this.props.mapLoaded} />
 
         <Nav>
           <Logo href="#" src={logo} />
-          <TopNavTitle href="#">ArcGIS JS API + React Boot</TopNavTitle>
+          <TopNavTitle href="#">Create Feature Service from OCHA Symbology</TopNavTitle>
           <NavList>
-            <TopNavLink href="https://github.com/Esri/esri-react-boot">Github</TopNavLink>
+            {/* <TopNavLink href="https://github.com/Esri/esri-react-boot">Github</TopNavLink>
             <TopNavLink href="https://github.com/Esri/esri-react-boot/wiki">Docs</TopNavLink>
-            <TopNavLink href="https://calcite-react.netlify.com/">Calcite-React</TopNavLink>
+            <TopNavLink href="https://calcite-react.netlify.com/">Calcite-React</TopNavLink> */}
           </NavList>
           <UserAccount
             user={this.props.auth.user}
@@ -98,15 +123,31 @@ class Main extends Component {
           />
         </Nav>
 
-        <MapWrapper>
-          <SceneViewExample
-            onMapLoaded={this.props.mapLoaded}
-            mapConfig={this.props.config.sceneConfig}
-            is3DScene={true}
+        <BodyWrapper>
+          <Route exact path="/" render={() => <Redirect to="/home" />} />
+          <Route
+            path="/create"
+            render={props =>
+              isLoggedIn ? (
+                <Create {...props} />
+              ) : (
+                <Redirect to={{ pathname: '/home', state: { from: props.location } }} />
+              )
+            }
           />
-        </MapWrapper>
+          <Route
+            path="/home"
+            render={props =>
+              isLoggedIn ? (
+                <Redirect to={{ pathname: '/create', state: { from: props.location } }} />
+              ) : (
+                <Home {...props} />
+              )
+            }
+          />
+        </BodyWrapper>
       </Container>
-    )
+    );
   }
 }
 
@@ -114,13 +155,20 @@ const mapStateToProps = state => ({
   map: state.map,
   auth: state.auth,
   config: state.config,
-})
+  groupedOcha: state.groupedOcha
+});
 
-const mapDispatchToProps = function (dispatch) {
-  return bindActionCreators({
-    ...mapActions,
-    ...authActions,
-  }, dispatch);
-}
+const mapDispatchToProps = function(dispatch) {
+  return bindActionCreators(
+    {
+      ...mapActions,
+      ...authActions
+    },
+    dispatch
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);

@@ -2,7 +2,7 @@ import axios from 'axios';
 import FormData from 'form-data';
 import fsTemplate from '../json/feature-service-template.json';
 import fsLayersTemplate from '../json/feature-layers-template.json';
-import fsUniqueValuesTemplate from '../json/feature-layers-unique-values-template';
+import fsUniqueValuesTemplate from '../json/feature-layers-unique-values-template.json';
 
 export async function createService(params) {
   const userContentUrl = params.userContentUrl;
@@ -25,8 +25,9 @@ async function createFeatureService(url, token, name) {
   bodyFormData.set('f', 'json');
   bodyFormData.set('token', token);
 
-  fsTemplate.name = name;
-  bodyFormData.set('createParameters', JSON.stringify(fsTemplate));
+  let fsTemplateCopy = JSON.parse(JSON.stringify(fsTemplate));
+  fsTemplateCopy.name = name;
+  bodyFormData.set('createParameters', JSON.stringify(fsTemplateCopy));
 
   const options = {
     url: `${url}/createService`,
@@ -46,7 +47,7 @@ async function addToDefinition(serviceUrl, token) {
   bodyFormData.set('f', 'json');
   bodyFormData.set('token', token);
 
-  const flTemplate = Object.assign({}, fsLayersTemplate);
+  const flTemplate = JSON.parse(JSON.stringify(fsLayersTemplate));
   bodyFormData.set('addToDefinition', JSON.stringify(flTemplate));
 
   const options = {
@@ -67,7 +68,7 @@ async function updateDefinition(activeIcons, serviceUrl, token, iconSize) {
   bodyFormData.set('f', 'json');
   bodyFormData.set('token', token);
 
-  let uvTemplate = Object.assign({}, fsUniqueValuesTemplate);
+  let uvTemplate = JSON.parse(JSON.stringify(fsUniqueValuesTemplate));
   activeIcons.forEach(icon => {
     let uvi = {
       value: icon.name,

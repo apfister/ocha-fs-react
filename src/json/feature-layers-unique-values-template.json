@@ -3,39 +3,12 @@
         "renderer": {
             "type": "uniqueValue",
             "field1": "OCHA_NAME",
-            "uniqueValueInfos": [{
-                "symbol": {
-                    "type": "esriPMS",
-                    "imageData": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAADyElEQVRYhc2XTWjcRRTAf29mmxiz32g2NhDRrlAMFVFIKSiCtSQ1WLVFBY+eYjat2VM8SUUoFMFQMCU3L+qhBfVg3cRY9FbwVCjBCLmYU5JN87HZmq+deR6STTfJ5sNkY3yn/3/mzXu/mfdmeC/AIUvgfwmQaB+oW7SF46ISqYQTFZ2tdoHh8b6WiR0BQqnMqQVxPSBNKgQrAQCSXwi4oVAqk57rPXtnS4BQKnPKiN4GairjeE2CwEkjejuUypwuhVgDSLQP1K3svOLOS6XGiPYk2gfOFcOxBrBoC8dBmvbvQ4ZRf8lAtRfpBRo3KDSt+GI9gKhEKhFzwffN9LYNgkrkYuZ1lA83qARLk7vi11CR5mjX91FdvCWoeXon/YN4B97WQrXFEgBe/S8BFGFQnUnlrreOAIQ7+pNi/E3g+YMHEPLey+W5VecAueutI9HOTFrRn9jidlXyBO4boxOxjwYbp6+dGQWIdWRewrhJVfMA3T/ALDAP1JedVeZFtUGd5oBRALU+ibG/4TQPPLZfgCr1pIzhqkKDwo8CbSA5wIIuGLWPFqxfWMe1zDGEua2M/huAGhGtUS8fqKHHernqDc14/wnGdCuS97h6q8SB34uLjGiVB7dfgCzKA0GaZrL5r0JHQ+fdEcnaZfeaglU0JshfYiXolWzpQq/agMjs/gCUKXHSCsDNd90c/Lk6MxXuvPW+QAQ44ZWnMPZCON0fz/W0TgGoSFrg8b0AqMCYwjgCas0zs70tgxuVcl+2fRu+2D9i1H+n8KQUxKlqMtrx8xJ+2Ynw7HZ728UJSL8V7dUlUz6RLt+okkleKB2y6pLe+DGrZsSh21rfDkAUngD92Ckvhmqn35wuoxTJht9C/BWF2MOVEhe0yvvAXaSwZ4BSOZErBK8A6U0GtHDPi3nDo1+ANMsRmXKeY4JkBe7uZHi3APXiGeOdGzZaH3zO+arRR9QuZuuyS27Sfq5oG8gUwPS1M6ORzkyjolZ2YXj374D3v0Tqg92qdAnLl5bM4sux+8E/nPK1CK1AvEQ7LrusrHb/DhhzHqUbsCL6GUjSKxjxn3pkXOAoQLTr16gW5qOK2NnszL1IYvsaZw1ARWdB8lC2KoojK85X/5Nr65C0PByH5b9fWU3C2lii9j2/2VZ+xdcGgGoXGF4IuCHgZBkAW2asKOHSHxX5ofjtkW/K6A9Vu8DwJoDxvpaJUCqTPqCyvCjzXiVd2qCsy4G53rN3QqnMaSPaAzRRPhx7kTww5FW2b0yKEIn2gXOH1prBSjhYrdsPWg69O/4HrH6TpDonmZIAAAAASUVORK5CYII=",
-                    "contentType": "image/png",
-                    "width": 24,
-                    "height": 24,
-                    "angle": 0,
-                    "xoffset": 0,
-                    "yoffset": 0
-                },
-                "value": "Assault",
-                "label": "Assault"
-            }],
+            "uniqueValueInfos": [],
             "fieldDelimiter": ","
         },
         "transparency": 0
     },
     "typeIdField": "",
-    "types": [{
-        "id": "Assault",
-        "name": "Assault",
-        "domains": {},
-        "templates": [{
-            "name": "Assault",
-            "description": "",
-            "drawingTool": "esriFeatureEditToolPoint",
-            "prototype": {
-                "attributes": {
-                    "OCHA_NAME": "Assault"
-                }
-            }
-        }]
-    }],
+    "types": [],
     "templates": []
 }

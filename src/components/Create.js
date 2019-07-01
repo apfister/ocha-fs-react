@@ -137,7 +137,7 @@ class Create extends Component {
     const icons = this.state.groupedOcha[category];
     const chunkedIcons = this.chunkIcons(icons);
     return (
-      <CalciteGridContainer>
+      <CalciteGridContainer className="column-18">
         {chunkedIcons.map((chunk, i) => (
           <CalciteGridColumnLastChildBorder key={`chunk_${i}`} column="6" className="iconGridColumn">
             {chunk.map(icon => (

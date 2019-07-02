@@ -96,7 +96,7 @@ class Main extends Component {
     super(props);
     this.state = {
       currentMessage: '',
-      isHelpModalOpen: false,
+      isQuickGuideModalOpen: false,
       isResultsModalOpen: false,
       resultsLog: [],
       modalMessage: '',
@@ -105,7 +105,7 @@ class Main extends Component {
   }
 
   closeModal = () => {
-    this.setState({ isHelpModalOpen: false, isResultsModalOpen: false });
+    this.setState({ isHelpModalOpen: false, isResultsModalOpen: false, isQuickGuideModalOpen: false });
   };
 
   receiveStatusUpdate = data => {
@@ -155,7 +155,9 @@ class Main extends Component {
           <Logo href="#" src={logo} />
           <TopNavTitle href="#">Create Feature Service from OCHA Symbology</TopNavTitle>
           <NavList>
-            <TopNavLink href="#" onClick={() => this.setState({ isHelpModalOpen: !this.state.isHelpModalOpen })}>
+            <TopNavLink
+              href="#"
+              onClick={() => this.setState({ isQuickGuideModalOpen: !this.state.isQuickGuideModalOpen })}>
               Quick Guide
             </TopNavLink>
             <TopNavLink target="_blank" href="https://github.com/apfister/ocha-fs-react">
@@ -252,6 +254,21 @@ class Main extends Component {
                 </CalciteUl>
               </div>
             ))}
+            <ModalActions>
+              <Button onClick={this.closeModal} clear>
+                Close
+              </Button>
+            </ModalActions>
+          </Modal>
+
+          <Modal
+            shouldCloseOnEsc={true}
+            shouldCloseOnOverlayClick={true}
+            onRequestClose={this.closeModal}
+            open={this.state.isQuickGuideModalOpen}
+            appElement={document.body}
+            dialogStyle={{ maxHeight: '600px', minWidth: '80vw' }}>
+            <CalciteH2>Guide Coming Soon</CalciteH2>
             <ModalActions>
               <Button onClick={this.closeModal} clear>
                 Close

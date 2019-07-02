@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import { actions as mapActions } from '../redux/reducers/map';
 import { actions as authActions } from '../redux/reducers/auth';
 
-import { Formik, Field } from 'formik';
+import Modal, { ModalActions } from 'calcite-react/Modal';
 
 // Components
 import Toaster from 'calcite-react/Toaster';
@@ -35,8 +35,9 @@ import Panel, { PanelTitle } from 'calcite-react/Panel';
 import List, { ListItem, ListItemTitle } from 'calcite-react/List';
 import Label from 'calcite-react/Label';
 import Slider from 'calcite-react/Slider';
+import Loader from 'calcite-react/Loader';
 import SideNav, { SideNavTitle, SideNavLink } from 'calcite-react/SideNav';
-import { CalciteP, CalciteA, CalciteH6 } from 'calcite-react/Elements';
+import { CalciteP, CalciteA, CalciteH6, CalciteH2, CalciteUl, CalciteLi } from 'calcite-react/Elements';
 import TextField from 'calcite-react/TextField';
 import Button from 'calcite-react/Button';
 // import LayerPointsIcon from 'calcite-ui-icons-react/LayerPointsIcon';
@@ -91,6 +92,50 @@ const NavList = styled(TopNavList)`
 
 // Class
 class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentMessage: '',
+      isHelpModalOpen: false,
+      isResultsModalOpen: false,
+      resultsLog: [],
+      modalMessage: '',
+      isProcessing: false
+    };
+  }
+
+  closeModal = () => {
+    this.setState({ isHelpModalOpen: false, isResultsModalOpen: false });
+  };
+
+  receiveStatusUpdate = data => {
+    if (data.shouldOpenModal) {
+      this.setState({ currentMessage: '', isHelpModalOpen: true, isProcessing: true });
+    }
+
+    if (data.status === 'processing') {
+      this.setState({ isProcessing: true });
+    } else {
+      this.setState({ isProcessing: false });
+    }
+
+    this.setState({
+      currentMessage: data.message
+    });
+
+    if (data.status === 'completed') {
+      this.setState({
+        resultsLog: [...this.state.resultsLog, data],
+        newServiceEditUrl: data.newServiceEditUrl,
+        newServiceUrl: data.newServiceUrl
+      });
+    }
+  };
+
+  showResultsModal = e => {
+    this.setState({ isResultsModalOpen: true });
+  };
+
   signIn = () => {
     this.props.checkAuth('https://www.arcgis.com');
   };
@@ -110,9 +155,15 @@ class Main extends Component {
           <Logo href="#" src={logo} />
           <TopNavTitle href="#">Create Feature Service from OCHA Symbology</TopNavTitle>
           <NavList>
-            {/* <TopNavLink href="https://github.com/Esri/esri-react-boot">Github</TopNavLink>
-            <TopNavLink href="https://github.com/Esri/esri-react-boot/wiki">Docs</TopNavLink>
-            <TopNavLink href="https://calcite-react.netlify.com/">Calcite-React</TopNavLink> */}
+            <TopNavLink href="#" onClick={() => this.setState({ isHelpModalOpen: !this.state.isHelpModalOpen })}>
+              Quick Guide
+            </TopNavLink>
+            <TopNavLink target="_blank" href="https://github.com/apfister/ocha-fs-react">
+              Project Home
+            </TopNavLink>
+            <TopNavLink target="_blank" href="https://github.com/apfister/ocha-fs-react/issues">
+              Report an Issue
+            </TopNavLink>
           </NavList>
           <UserAccount
             user={this.props.auth.user}
@@ -129,7 +180,7 @@ class Main extends Component {
             path="/create"
             render={props =>
               isLoggedIn ? (
-                <Create {...props} />
+                <Create {...props} sendStatusUpdate={this.receiveStatusUpdate} showLogsModal={this.showResultsModal} />
               ) : (
                 <Redirect to={{ pathname: '/home', state: { from: props.location } }} />
               )
@@ -145,6 +196,68 @@ class Main extends Component {
               )
             }
           />
+
+          <Modal
+            shouldCloseOnEsc={false}
+            shouldCloseOnOverlayClick={false}
+            onRequestClose={this.closeModal}
+            open={this.state.isHelpModalOpen}
+            appElement={document.body}>
+            <CalciteH2 className="text-center">
+              Publishing Service to ArcGIS Online
+              {this.state.isProcessing ? <Loader className="leader-1"></Loader> : null}
+            </CalciteH2>
+            <CalciteP>{this.state.currentMessage}</CalciteP>
+            {this.state.isProcessing ? null : (
+              <div>
+                <CalciteA href={this.state.newServiceUrl} target="_blank">
+                  View Item in Your ArcGIS Online
+                </CalciteA>
+                <br />
+                <CalciteA href={this.state.newServiceEditUrl} target="_blank">
+                  Start Editing in the ArcGIS Online Map Viewer
+                </CalciteA>
+              </div>
+            )}
+            <ModalActions>
+              <Button disabled={this.state.isProcessing} onClick={this.closeModal} clear>
+                Close
+              </Button>
+            </ModalActions>
+          </Modal>
+
+          <Modal
+            shouldCloseOnEsc={true}
+            shouldCloseOnOverlayClick={true}
+            onRequestClose={this.closeModal}
+            open={this.state.isResultsModalOpen}
+            appElement={document.body}
+            dialogStyle={{ maxHeight: '600px', minWidth: '80vw' }}>
+            <CalciteH2>Previous Results</CalciteH2>
+            {this.state.resultsLog.map((result, ind) => (
+              <div key={`result_${ind}`} className="trailer-1">
+                {result.serviceName}
+                <CalciteUl key={`ul_${ind}}`}>
+                  <CalciteLi key={`limessage_${ind}`}>{result.message}</CalciteLi>
+                  <CalciteLi key={`li_vi_${ind}`}>
+                    <CalciteA href={result.newServiceUrl} target="_blank">
+                      View Item in Your ArcGIS Online
+                    </CalciteA>
+                  </CalciteLi>
+                  <CalciteLi key={`li_ve_${ind}`}>
+                    <CalciteA href={result.newServiceEditUrl} target="_blank">
+                      Start Editing in the ArcGIS Online Map Viewer
+                    </CalciteA>
+                  </CalciteLi>
+                </CalciteUl>
+              </div>
+            ))}
+            <ModalActions>
+              <Button onClick={this.closeModal} clear>
+                Close
+              </Button>
+            </ModalActions>
+          </Modal>
         </BodyWrapper>
       </Container>
     );

@@ -12,7 +12,7 @@ export async function createService(params) {
 
   const createResponse = await createFeatureService(userContentUrl, token, name);
 
-  const layerUrl = await addToDefinition(createResponse.adminUrl, token);
+  const layerUrl = await addToDefinition(createResponse.adminUrl, name, token);
 
   const activeIcons = params.activeIcons;
   const updateResponse = await updateDefinition(activeIcons, layerUrl, token, iconSize);
@@ -42,12 +42,13 @@ async function createFeatureService(url, token, name) {
   return { itemId: response.data.serviceItemId, adminUrl: response.data.serviceurl.replace('/rest', '/rest/admin') };
 }
 
-async function addToDefinition(serviceUrl, token) {
+async function addToDefinition(serviceUrl, name, token) {
   let bodyFormData = new FormData();
   bodyFormData.set('f', 'json');
   bodyFormData.set('token', token);
 
   const flTemplate = JSON.parse(JSON.stringify(fsLayersTemplate));
+  flTemplate.layers[0].name = name;
   bodyFormData.set('addToDefinition', JSON.stringify(flTemplate));
 
   const options = {

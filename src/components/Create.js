@@ -80,6 +80,7 @@ class Create extends Component {
     super(props);
     const groupedOcha = groupBy('category')(ochaTemplates);
     this.state = {
+      hasResults: false,
       currentCategory: '',
       toasterOpen: false,
       fsName: '',
@@ -185,7 +186,13 @@ class Create extends Component {
     this.setState({ activeIcons: newActiveIcons });
   };
 
+  sendStatusUpdate = update => {
+    this.props.sendStatusUpdate(update);
+  };
+
   publishService = async (values, actions) => {
+    this.sendStatusUpdate({ status: 'processing', shouldOpenModal: true, message: 'Publishing Service ...' });
+
     const activeIcons = this.state.activeIcons;
 
     if (activeIcons.length === 0) {
@@ -208,18 +215,40 @@ class Create extends Component {
     };
 
     let response = null;
+    let newServiceUrl,
+      newServiceEditUrl = null;
+    let resultsObj = null;
     try {
       response = await createService(params);
 
       const itemId = response.itemId;
       const urlKey = this.props.auth.user.portal.urlKey;
       const baseUrl = this.props.auth.user.portal.url.replace('www', `${urlKey}.maps`);
-      const newServiceUrl = `${baseUrl}/home/item.html?id=${itemId}`;
-      this.setState({ newServiceUrl: newServiceUrl, toasterOpen: true });
 
-      console.log('done!');
+      newServiceUrl = `${baseUrl}/home/item.html?id=${itemId}`;
+      newServiceEditUrl = `${baseUrl}/home/webmap/viewer.html?layers=${itemId}&isAdmin=true`;
+
+      resultsObj = {
+        success: true,
+        status: 'completed',
+        serviceName: params.name,
+        message: 'Successfully created service',
+        newServiceUrl,
+        newServiceEditUrl
+      };
+
+      this.setState({ hasResults: true });
+
+      this.sendStatusUpdate(resultsObj);
     } catch (error) {
       console.log(error);
+      resultsObj = {
+        success: false,
+        status: 'completed',
+        message: error
+      };
+
+      this.sendStatusUpdate(resultsObj);
     }
 
     actions.setSubmitting(false);
@@ -246,6 +275,16 @@ class Create extends Component {
     const filteredIcons = currentIcons.filter(existing => existing.category !== activeCategory);
 
     this.setState({ activeIcons: filteredIcons });
+  };
+
+  getLogStyle = () => {
+    return this.state.hasResults ? null : 'none';
+  };
+
+  showResultsLog = e => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    this.props.showLogsModal();
   };
 
   render() {
@@ -344,29 +383,28 @@ class Create extends Component {
                 <Panel className="text-left">
                   <PanelTitle>Name your Feature Service</PanelTitle>
                   <CalciteGridColumn column="8">
-                    <Field fullWidth disabled={isSubmitting} component={TextField} type="text" name="fsName" />
+                    <Field fullWidth component={TextField} type="text" name="fsName" />
                   </CalciteGridColumn>
-                  <CalciteGridColumn column="5">
-                    <Button extraLarge disabled={isSubmitting} type="submit">
-                      {isSubmitting ? 'Publishing ...' : 'Publish'}
+                  <CalciteGridColumn column="3">
+                    <Button extraLarge type="submit">
+                      Publish
                     </Button>
+                  </CalciteGridColumn>
+                  <CalciteGridColumn column="4" className="leader-half">
+                    <CalciteA
+                      style={{ pointerEvents: this.getLogStyle() }}
+                      className={this.state.hasResults ? null : 'disabled-link-log'}
+                      onClick={e => {
+                        this.showResultsLog(e);
+                      }}>
+                      View Previous Results
+                    </CalciteA>
                   </CalciteGridColumn>
                 </Panel>
               </CalciteGridContainer>
             </Form>
           )}
         </Formik>
-
-        <Toaster open={this.state.toasterOpen} onClose={this.hideToaster} autoClose={false} position="bottom-right">
-          {/* <LayerPointsIcon color="blue" /> */}
-          <CalciteP>
-            Successfully Created Feature Service!
-            <br />
-            <CalciteA color="white" href={this.state.newServiceUrl} target="_blank">
-              Click Here to view it.
-            </CalciteA>
-          </CalciteP>
-        </Toaster>
       </div>
     );
   }

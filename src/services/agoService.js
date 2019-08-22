@@ -12,9 +12,10 @@ export async function createService(params) {
 
   const createResponse = await createFeatureService(userContentUrl, token, name);
 
-  const layerUrl = await addToDefinition(createResponse.adminUrl, name, token);
-
   const activeIcons = params.activeIcons;
+
+  const layerUrl = await addToDefinition(createResponse.adminUrl, activeIcons, name, token);
+
   const updateResponse = await updateDefinition(activeIcons, layerUrl, token, iconSize);
 
   return { itemId: createResponse.itemId };
@@ -42,13 +43,30 @@ async function createFeatureService(url, token, name) {
   return { itemId: response.data.serviceItemId, adminUrl: response.data.serviceurl.replace('/rest', '/rest/admin') };
 }
 
-async function addToDefinition(serviceUrl, name, token) {
+async function addToDefinition(serviceUrl, activeIcons, name, token) {
   let bodyFormData = new FormData();
   bodyFormData.set('f', 'json');
   bodyFormData.set('token', token);
 
   const flTemplate = JSON.parse(JSON.stringify(fsLayersTemplate));
   flTemplate.layers[0].name = name;
+
+  let oNameDomain = {
+    type: 'codedValue',
+    name: 'name_CV',
+    codedValues: []
+  };
+
+  activeIcons.forEach(icon => {
+    oNameDomain.codedValues.push({
+      name: icon.name,
+      code: icon.name
+    });
+  });
+
+  let oNameField = flTemplate.layers[0].fields.filter(field => field.name === 'OCHA_NAME')[0];
+  oNameField.domain = oNameDomain;
+
   bodyFormData.set('addToDefinition', JSON.stringify(flTemplate));
 
   const options = {

@@ -11,7 +11,6 @@
 
 // React
 import React, { Component } from 'react';
-import { Redirect, NavLink, Route } from 'react-router-dom';
 
 // Redux
 import { bindActionCreators } from 'redux';
@@ -22,7 +21,6 @@ import { actions as authActions } from '../redux/reducers/auth';
 import { Formik, Field } from 'formik';
 
 // Components
-import Toaster from 'calcite-react/Toaster';
 import Form from 'calcite-react/Form';
 import Panel, { PanelTitle } from 'calcite-react/Panel';
 import List, { ListItem, ListItemTitle } from 'calcite-react/List';

@@ -11,7 +11,7 @@
 
 // React
 import React, { Component } from 'react';
-import { Redirect, NavLink, Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import Home from './Home';
 import Create from './Create';
 
@@ -23,33 +23,17 @@ import { actions as authActions } from '../redux/reducers/auth';
 
 import Modal, { ModalActions } from 'calcite-react/Modal';
 
-// Components
-import Toaster from 'calcite-react/Toaster';
-import Form from 'calcite-react/Form';
 import TopNav from 'calcite-react/TopNav';
 import TopNavBrand from 'calcite-react/TopNav/TopNavBrand';
 import TopNavTitle from 'calcite-react/TopNav/TopNavTitle';
 import TopNavList from 'calcite-react/TopNav/TopNavList';
 import TopNavLink from 'calcite-react/TopNav/TopNavLink';
-import Panel, { PanelTitle } from 'calcite-react/Panel';
-import List, { ListItem, ListItemTitle } from 'calcite-react/List';
-import Label from 'calcite-react/Label';
-import Slider from 'calcite-react/Slider';
 import Loader from 'calcite-react/Loader';
-import SideNav, { SideNavTitle, SideNavLink } from 'calcite-react/SideNav';
-import { CalciteP, CalciteA, CalciteH6, CalciteH2, CalciteUl, CalciteLi } from 'calcite-react/Elements';
-import TextField from 'calcite-react/TextField';
+import { CalciteP, CalciteA, CalciteH2, CalciteUl, CalciteLi } from 'calcite-react/Elements';
 import Button from 'calcite-react/Button';
-// import LayerPointsIcon from 'calcite-ui-icons-react/LayerPointsIcon';
-import PlusCircleIcon from 'calcite-ui-icons-react/PlusCircleIcon';
-import MinusCircleIcon from 'calcite-ui-icons-react/MinusCircleIcon';
 
 import LoadScreen from './LoadScreen';
 import UserAccount from './UserAccount';
-import CalciteGridContainer from './CalciteGridContainer';
-import CalciteGridColumn from './CalciteGridColumn';
-import ochaTemplates from '../json/ocha-templates';
-import { createService } from '../services/agoService';
 
 import logo from '../styles/images/Esri-React-Logo.svg';
 
@@ -132,7 +116,7 @@ class Main extends Component {
     }
   };
 
-  showResultsModal = e => {
+  showResultsModal = () => {
     this.setState({ isResultsModalOpen: true });
   };
 
